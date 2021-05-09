@@ -1,19 +1,33 @@
 import React from 'react'
-import { ToDo } from './components/ToDo'
+import { BrowserRouter as Router,Route, Switch } from 'react-router-dom';
+import Inicio from './views/Inicio';
+import Companies from "./views/Companies";
+import Cities from "./views/Cities";
+import Countries from "./views/Countries";
+import NavBar from './views/NavBar';
+import NotFoundView from './views/NotFoundView';
 
-const App = () => (
+ class App extends React.Component {
 
-    <div className="container ">
-    <div className="row  ">
-    <div className="col-12 mb-5 border">
-    <h1 align="center">MI PRIMER PROYECTO EN REACT.js</h1><br></br><br></br>
-    <ToDo />
-    </div>
-    
-    </div>    
-    </div>
-    
-  )
- 
+  render(){
+    return(
+      <> 
+            <Router>  
+            <NavBar></NavBar>  
+            <Switch>
+                <Route path="/" exact component={Inicio}></Route>
+                <Route path="/companies" exact  component={Companies}></Route>
+                <Route path="/cities" exact  component={Cities}></Route>
+                <Route path="/countries" exact component={Countries} ></Route>
 
+                <Route component={NotFoundView}></Route>
+            </Switch>
+          </Router>
+      
+       
+    </>
+    );
+}
+}
 export default App;
+
