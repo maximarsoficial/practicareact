@@ -8,6 +8,7 @@ class Inicio extends React.Component {
     };
   }
 
+  
   render() {
     return (
         <>
