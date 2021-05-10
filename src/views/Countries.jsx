@@ -28,7 +28,7 @@ this.setState({
     <div className="row">
 
       <div className="col m-5">
-      <h1 align="center">AREGAR PAIS</h1><hr></hr>
+      <h1 align="center">AGREGAR PAIS</h1><hr></hr>
       <label>INGRESE PAIS:</label><br></br>
         <input type="text" value={this.state.newPais} onChange={(e) => this.handleNewPais(e)} placeholder="ingrese pais"></input><br></br>
         <button className="btn btn-primary m-2" onClick={this.AddPais}>CARGAR</button><hr></hr>

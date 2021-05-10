@@ -20,7 +20,7 @@ class Cities extends React.Component {
 
 
   addCiudad = () => {
-    let ciudad = this.state.newCiudad;
+    let ciudad = this.state.ciudades;
       this.setState({
           ciudades: [...this.state.ciudades, ciudad]
       });
@@ -41,10 +41,10 @@ class Cities extends React.Component {
       <div className="row">
 
         <div className="col m-5">
-        <h1 align="center">AREGAR CIUDAD</h1><hr></hr>
+        <h1 align="center">AGREGAR CIUDAD</h1><hr></hr>
         <label>INGRESE CIUDAD:</label><br></br>
             <input type="text" 
-                    value={this.state.newCiudad} 
+                    value={this.state.ciudades} 
                     onChange={(e) => this.handleCiudad(e)}              
                     placeholder="ingrese ciudad"></input><br></br>
 
@@ -62,9 +62,9 @@ class Cities extends React.Component {
         </div>
         
       </div>
-        <ul>
+        {/* <ul>
                 {this.state.ciudades.map((ciudad, idx) => {return <li key={idx}>{ciudad}</li>})}
-        </ul>
+        </ul> */}
     </div>
     
     )
