@@ -27,15 +27,16 @@ class NavBar extends React.Component {
 		    	</button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav mr-auto">
-                  <li className="nav-item active">
+                  <li className="nav-item ">
                       <Link className="nav-link" to="/Companies">COMPAÑIAS <span className="sr-only">(current)</span></Link>
                   </li>
                   <li className="nav-item">
                       <Link className="nav-link" to="/Cities">CIUDADES</Link>
                   </li>
-                  <li className="nav-item">
+                   <li className="nav-item">
                       <Link className="nav-link" to="/Countries">PAISES</Link>
                   </li>
+                  
               </ul>
               
             </div>

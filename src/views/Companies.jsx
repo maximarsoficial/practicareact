@@ -4,24 +4,32 @@ class Companies extends React.Component {
   constructor(){ 
     super()
     this.state = {
-        compañias: [],
-        newCompañia: '', 
+        compañias: []
       };
 }
 
-
+componentDidMount(){
+  if(localStorage.getItem("compañias") != null){
+    this.setState({
+      compañias: JSON.parse(localStorage.getItem("compañias"))
+          })
+  }
+}
 
 addCompañia = () => {
-  let compañia = this.state.newCompañia;
+  let compañia = this.state.compañias;
   this.setState({
       compañias: [...this.state.compañias, compañia]
   });
 }
+handleNewCompañia(e){
+  this.setState({
+    compañias: e.target.value
+  })
+}
 
-handleNewCompañia = (e) => {
-this.setState({
-    newCompañia: e.target.value
-})
+saveData= () => {
+  window.localStorage.setItem("compañias", JSON.stringify(this.state.compañias))
 }
 
   render() {
@@ -34,13 +42,22 @@ this.setState({
         <h1 align="center">AGREGAR COMPAÑIA</h1><hr></hr>
         <label>INGRESE COMPAÑIA</label><br></br>
 
-          <input type="text" placeholder="ingrese compañia" value={this.state.newCompañia} onChange={(e) => this.handleNewCompañia(e)} ></input><br></br>
-          <button className="btn btn-primary m-2" onClick={this.addCompañia}>CARGAR</button><hr></hr>
+          <input type="text"
+                 placeholder="ingrese compañia" 
+                 value={this.state.compañias} 
+                 onChange={(e) => this.handleNewCompañia(e)} ></input><br></br>
+
+          <button className="btn btn-primary m-2" 
+          onClick={this.addCompañia}>CARGAR</button><hr></hr><br></br>
+
+          <button onClick={this.saveData}  
+                  type="submit" className="btn btn-warning m-2" 
+          >GUARDAR</button><br></br><hr></hr>
         </div>
       </div>
-      <ul>
+      {/* <ul>
                 {this.state.compañias.map((elem, idx) => {return <li key={idx}>{elem}</li>})}
-        </ul>
+        </ul> */}
     </div>
 
       </>

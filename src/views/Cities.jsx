@@ -62,9 +62,9 @@ class Cities extends React.Component {
         </div>
         
       </div>
-        {/* <ul>
+         {/* <ul>
                 {this.state.ciudades.map((ciudad, idx) => {return <li key={idx}>{ciudad}</li>})}
-        </ul> */}
+        </ul>  */}
     </div>
     
     )

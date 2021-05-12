@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router,Route, Switch } from 'react-router-dom';
-import Inicio from './views/Inicio';
 import Companies from "./views/Companies";
 import Countries from "./views/Countries";
 import NavBar from './views/NavBar';
 import NotFoundView from './views/NotFoundView';
 import Cities from './views/Cities';
+import { MainView } from './views/MainView';
 
  class App extends React.Component {
 
@@ -13,12 +13,13 @@ import Cities from './views/Cities';
     return(
       <> 
             <Router>  
-            <NavBar></NavBar>  
+             <NavBar></NavBar> 
             <Switch>
-                <Route path="/" exact component={Inicio}></Route>
+                <Route path="/" exact component={MainView}></Route>
                 <Route path="/companies" exact  component={Companies}></Route>
                 <Route path="/countries" exact component={Countries} ></Route>
-                <Route path="/cities" exact component={Cities} ></Route>
+                
+                <Route path="/Cities"  exact component={Cities} />
 
 
                 <Route component={NotFoundView}></Route>
