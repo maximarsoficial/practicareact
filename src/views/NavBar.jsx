@@ -14,7 +14,7 @@ class NavBar extends React.Component {
     <p>
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
  
-            <Link className="navbar-brand" to="/">INICIO</Link>
+            <Link className="navbar-brand" to="/">Inicio</Link>
             <button
                 className="navbar-toggler"
                 type="button"
@@ -28,13 +28,13 @@ class NavBar extends React.Component {
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav mr-auto">
                   <li className="nav-item ">
-                      <Link className="nav-link" to="/Companies">COMPAÑIAS <span className="sr-only">(current)</span></Link>
+                      <Link className="nav-link" to="/Companies">Compañias <span className="sr-only">(current)</span></Link>
                   </li>
                   <li className="nav-item">
-                      <Link className="nav-link" to="/Cities">CIUDADES</Link>
+                      <Link className="nav-link" to="/Cities">Ciudades</Link>
                   </li>
                    <li className="nav-item">
-                      <Link className="nav-link" to="/Countries">PAISES</Link>
+                      <Link className="nav-link" to="/Countries">Paises</Link>
                   </li>
                   
               </ul>
