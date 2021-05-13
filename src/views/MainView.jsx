@@ -1,14 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { AddModal } from '../components/AddModal';
-import { EditModal } from '../components/EditModal';
+
 
 export class MainView extends React.Component{
   constructor(props){
     super(props)
     this.state = {
     data: [],
-    modalActualizar: false,
+    
     modalInsertar: false,
     form: {
       puesto: "",
@@ -17,17 +17,11 @@ export class MainView extends React.Component{
       pais: "", 
     },
   };
-  this.editar = this.editar.bind(this)
+  
   this.insertar = this.insertar.bind(this)
   }
  
-  //cambio el estado del modal EDITAR para mostrarlo
-  mostrarModalActualizar = (dato) => {
-    this.setState({
-      form: dato,
-      modalActualizar: !this.state.modalActualizar,
-    });
-  };
+ 
  
   //cambio el estado del modal CREAR para mostrarlo
   mostrarModalInsertar = () => {
@@ -39,22 +33,15 @@ export class MainView extends React.Component{
   // cierro los modales
   cerrarModal = () => {
     this.setState({ 
-        modalActualizar: false,
-        modalInsertar: false,
+        modalInsertar: false
     });
   };
 
-  //funcion para EDITAR registro
-  editar = (dato) => {
-    var arreglo = this.state.data;
-    let registro = arreglo.find(reg => reg.id === dato.id)
-    let pos = arreglo.indexOf(registro)
-    arreglo[pos] = dato
-    this.setState({ data: arreglo, modalActualizar: false });
-  };
+
+ 
   //funcion para BORRAR registro
   eliminar = (dato) => {
-    var opcion = window.confirm("Estás Seguro que deseas eliminar ??"+dato.puesto);
+    var opcion = window.confirm("¿Estás Seguro de eliminarlo ??");
     if (opcion === true) {
       var contador = 0;
       var arreglo = this.state.data;
