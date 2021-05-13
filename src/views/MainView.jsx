@@ -111,28 +111,17 @@ export class MainView extends React.Component{
             {this.state.data.map((dato,index)=>(
               <ul key={index}>
                 <label>PUESTO:</label> <lo>{dato.puesto}</lo><br></br>
-                <label>Compañia:</label> <lo>{dato.empresa}</lo><br></br>
+                <label>Compañia:</label> <lo>{dato.compañia}</lo><br></br>
                 <label>Ciudad:</label><lo>{dato.ciudad}</lo><br></br>
                 <label>Pais:</label><lo>{dato.pais}</lo>
                 <td>
-                <button
-                      className="btn btn-primary"
-                      onClick={() => this.mostrarModalActualizar(dato)}>
-                      Editar
-                    </button>{" "}
+                
                     <button className="btn btn-danger" onClick={()=> this.eliminar(dato)}>Eliminar</button>
                 </td>
               </ul>
             ))}
           </tbody>
-          { 
-          this.state.modalActualizar 
-          ? <EditModal 
-                cerrarModal={this.cerrarModal} 
-                actualizar = {this.editar}
-                data={this.state.form}
-            /> 
-          : null }
+         
          
           </div>
       </>
