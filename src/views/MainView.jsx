@@ -41,7 +41,7 @@ export class MainView extends React.Component{
  
   //funcion para BORRAR registro
   eliminar = (dato) => {
-    var opcion = window.confirm("¿Estás Seguro de eliminarlo ??");
+    var opcion = window.confirm("¿Estás Seguro de eliminarlo?");
     if (opcion === true) {
       var contador = 0;
       var arreglo = this.state.data;
