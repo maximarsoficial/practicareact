@@ -8,7 +8,7 @@ class NewJobForm extends React.Component {
             name: '',
             company: '',
             city: '',
-            country: 'ARGENTINA'
+            country: ''
         }
     };
   }
