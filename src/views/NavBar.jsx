@@ -14,7 +14,7 @@ class NavBar extends React.Component {
     <p>
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
  
-            <Link className="navbar-brand" to="/">Inicio</Link>
+            <Link className="navbar-brand" to="/">INICIO</Link>
             <button
                 className="navbar-toggler"
                 type="button"
