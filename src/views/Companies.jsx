@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 
 
 class Companies extends React.Component {
@@ -9,12 +10,26 @@ class Companies extends React.Component {
         compañias: []
       };
 }
-componentDidMount(){
-  if(localStorage.getItem("compañias") != null){
-    this.setState({
-      compañias: JSON.parse(localStorage.getItem("compañias"))
-          })
-  }
+async componentDidMount(){
+  console.log(this.getCompañias());                      
+}
+
+//FUNCIONA PERFECTO - AQUI TRAIGO 
+getCompañias = async () => {
+  const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/organizations/');
+  this.setState({
+    compañias:  res.data
+  })
+  console.log(res)
+}
+
+  //FUNCIONA PERFECTO
+  deleteUser = async (id) => {
+    const response = window.confirm('are you sure you want to delete it?');
+    if (response) {
+        await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/organizations/' + id);
+        this.getCompañias();
+    }
 }
 addCompañia = () => {
   let compañia = this.state.compañia;
@@ -27,9 +42,7 @@ handleNewCompañia(e){
     compañia: e.target.value
   })
 }
-saveData= () => {
-  window.localStorage.setItem("compañias", JSON.stringify(this.state.compañias))
-}
+
   render() {
     return (
       <>
@@ -40,18 +53,26 @@ saveData= () => {
         <label>INGRESE COMPAÑIA</label><br></br>
           <input type="text"
                  placeholder="ingrese compañia"
-                 value={this.state.compañia}
+                 value={this.state.getCompañias}
                  onChange={(e) => this.handleNewCompañia(e)} ></input><br></br>
           <button className="btn btn-primary m-2"
           onClick={this.addCompañia}>CARGAR</button><hr></hr><br></br>
-          <button onClick={this.saveData}
-                  type="submit" className="btn btn-warning m-2"
-          >GUARDAR</button><br></br><hr></hr>
+          
         </div>
       </div>
-      <ul>
-                {this.state.compañias.map((elem, idx) => {return <li key={idx}>{elem}</li>})}
+      <div className="col-md-8">
+         <ul className="list-group">
+                {
+                  this.state.compañias.map(apiCompañia => ( 
+                 <li className="list-group-item list-group-item-action"
+                  key={apiCompañia.id}
+                  onDoubleClick ={() => this.deleteUser(apiCompañia.id)} 
+                 >{apiCompañia.name} 
+                    
+                 
+                 </li>))}
         </ul>
+        </div>
     </div>
       </>
     );

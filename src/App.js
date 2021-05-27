@@ -6,6 +6,7 @@ import NavBar from './views/NavBar';
 import NotFoundView from './views/NotFoundView';
 import Cities from './views/Cities';
 import { MainView } from './views/MainView';
+import Puestos from './views/Puestos'
 
  class App extends React.Component {
 
@@ -16,6 +17,7 @@ import { MainView } from './views/MainView';
              <NavBar></NavBar> 
             <Switch>
                 <Route path="/" exact component={MainView}></Route>
+                <Route path="/puestos" exact  component={Puestos}></Route>
                 <Route path="/companies" exact  component={Companies}></Route>
                 <Route path="/countries" exact component={Countries} ></Route>
                 

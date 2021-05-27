@@ -1,4 +1,7 @@
 import React from 'react';
+import axios from 'axios';
+
+
 
 
 
@@ -10,36 +13,51 @@ export class AddModal extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.insertarPuesto = this.insertarPuesto.bind(this);
       this.state={
+        
           puesto: "",
           compañia: "",
           ciudad: "",
           pais: "", 
-        paises: [],
-        ciudades: [], 
-        compañias: []
+          puestos: [],
+          paises: [],
+          ciudades: [], 
+          compañias: []
       }
       
       
   };
+  async componentDidMount(){
+    console.log(this.getPuestos());    
+    console.log(this.getCiudades());    
+    console.log(this.getPaises());  
+    console.log(this.getCompañias());                     
+                  
+  }
 
-  componentDidMount() {
-		if(localStorage.getItem("paises") != null){
-			this.setState({
-				paises: JSON.parse(localStorage.getItem("paises"))
-			})
-		}
-    if(localStorage.getItem("ciudades") != null){
-			this.setState({
-				ciudades: JSON.parse(localStorage.getItem("ciudades"))
-			})
-		}
-    if(localStorage.getItem("compañias") != null){
-			this.setState({
-				compañias: JSON.parse(localStorage.getItem("compañias"))
-			})
-		}
-	}
-  
+  getPuestos = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/jobs/');
+    this.setState({
+      puestos:  res.data
+    })
+  }
+  getCompañias = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/organizations/');
+    this.setState({
+      compañias:  res.data
+    })
+  }
+  getCiudades = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/places/');
+    this.setState({
+      ciudades:  res.data
+    })
+  }
+  getPaises = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
+    this.setState({
+      paises:  res.data
+    })
+  }
 
   handleChange (e){
     this.setState({
@@ -83,22 +101,28 @@ export class AddModal extends React.Component {
       <h1>Insertar Puesto</h1><br></br>
 
               <label> Puesto: </label>
-              <input className="form-control" 
-              name="puesto" 
-              type="text"
-              placeholder="Ingrese puesto"
-               onChange={this.handleChange}/><br></br>
+              <select class="custom-select" 
+                      id="inputGroupSelect01"
+                      name="puesto"
+						          onChange={(e) => this.handleSelectCompañie(e)}
+						          value={JSON.stringify(this.state.getPuestos)}>
+
+						<option value={JSON.stringify({})}>Elija un puesto</option>
+            { this.state.puestos.map((apiPuesto) => (
+                            <option key={apiPuesto.id} value={JSON.stringify(apiPuesto.name)}>{apiPuesto.name}</option>
+                        ))}
+        			</select><br></br><br></br>
            
               <label> Compañia:  </label>
               <select class="custom-select" 
                       id="inputGroupSelect01"
                       name="compañia"
 						          onChange={(e) => this.handleSelectCompañie(e)}
-						          value={JSON.stringify(this.state.compañia)}>
+						          value={JSON.stringify(this.state.getCompañias)}>
 
 						<option value={JSON.stringify({})}>Elija Compañia</option>
-                        { this.state.compañias.map((compañia, index) => (
-                            <option key={index+1} value={JSON.stringify(compañia)}>{compañia}</option>
+            { this.state.compañias.map((apiCompañia) => (
+                            <option key={apiCompañia.id} value={JSON.stringify(apiCompañia.name)}>{apiCompañia.name}</option>
                         ))}
         			</select><br></br><br></br>
 
@@ -108,11 +132,11 @@ export class AddModal extends React.Component {
                       id="inputGroupSelect01"
                       name="pais"
 						          onChange={(e) => this.handleSelectCountry(e)}
-						          value={JSON.stringify(this.state.pais)}>
+						          value={JSON.stringify(this.state.getPaises)}>
 
 						<option value={JSON.stringify({})}>Elija Pais</option>
-                        { this.state.paises.map((pais, index) => (
-                            <option key={index+1} value={JSON.stringify(pais)}>{pais}</option>
+                        { this.state.paises.map((apiPais) => (
+                            <option key={apiPais.id} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
                         ))}
         			</select><br></br><br></br>
             
@@ -123,10 +147,10 @@ export class AddModal extends React.Component {
                       id="inputGroupSelect01"
                       name="ciudad"
 						          onChange={(e) => this.handleSelectCity(e)}
-						          value={JSON.stringify(this.state.ciudad)} >
+						          value={JSON.stringify(this.state.getCiudades)} >
 					    	<option value={JSON.stringify({})}>Elija Ciudad</option>
-                  { this.state.ciudades.map((ciudad, index) => (
-                  <option key={index+1} value={JSON.stringify(ciudad)}>{ciudad}</option>
+                  { this.state.ciudades.map((apiCiudad) => (
+                  <option key={apiCiudad.id} value={JSON.stringify(apiCiudad.name)}>{apiCiudad.name}</option>
                         ))}
 					</select><br></br><hr></hr>
           

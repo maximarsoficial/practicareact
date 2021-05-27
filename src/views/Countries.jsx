@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 
 class Countries extends React.Component {
   constructor(){
@@ -8,13 +9,35 @@ class Countries extends React.Component {
         paises: [],
       };
 }
-componentDidMount(){
-  if(localStorage.getItem("paises") != null){
-    this.setState({
-      paises: JSON.parse(localStorage.getItem("paises"))
-          })
-  }
-}
+
+      async componentDidMount(){
+        console.log(this.getPaises());                      
+      }
+
+      getPaises = async () => {
+        const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
+        this.setState({
+          paises:  res.data
+        })
+      }
+      onSubmit = async (e) => {
+        e.preventDefault();
+        await axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries/', {
+          pais: this.state.pais
+        });
+        this.setState({ pais: '' });
+        this.getPaises();
+      }
+
+      deleteUser = async (id) => {
+        const response = window.confirm('are you sure you want to delete it?');
+        if (response) {
+            await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/countries/' + id);
+            this.getPaises();
+        }
+      }
+
+
 AddPais = () => {
   let pais = this.state.pais;
   this.setState({
@@ -26,11 +49,10 @@ this.setState({
   pais: e.target.value
 })
 }
-saveData= () => {
-  window.localStorage.setItem("paises", JSON.stringify(this.state.paises))
-}
+
   render() {
-    return  <div className="container m-5">
+    return ( 
+    <div className="container m-5">
     <div className="row">
       <div className="col m-5">
       <h1 align="center">AGREGAR PAIS</h1><hr></hr>
@@ -40,15 +62,22 @@ saveData= () => {
         onChange={(e) => this.handleNewPais(e)}
         placeholder="ingrese pais"></input><br></br>
         <button className="btn btn-primary m-2" onClick={this.AddPais}>CARGAR</button><hr></hr>
-        <button onClick={this.saveData}
-                  type="submit" className="btn btn-warning m-2"
-          >GUARDAR</button><br></br><hr></hr>
       </div>
     </div>
-    <ul>
-                {this.state.paises.map((elem, idx) => {return <li key={idx}>{elem}</li>})}
+    <div className="col-md-8">
+         <ul className="list-group">
+                {
+                  this.state.paises.map(apiPais => ( 
+                 <li className="list-group-item list-group-item-action"
+                  key={apiPais}
+                  onDoubleClick ={() => this.deleteUser(apiPais.id)} 
+                 >{apiPais.name} 
+                 </li>))}
         </ul>
+        </div>
   </div>
+    )
   }
 }
+
 export default Countries;

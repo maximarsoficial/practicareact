@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { AddModal } from '../components/AddModal';
+import axios from 'axios';
+
 
 
 export class MainView extends React.Component{
@@ -8,6 +10,7 @@ export class MainView extends React.Component{
     super(props)
     this.state = {
     data: [],
+    datas: '' ,
     
     modalInsertar: false,
     form: {
@@ -69,6 +72,7 @@ export class MainView extends React.Component{
     })
     this.setState({ modalInsertar: false});
   }
+
   handleChange = (e) => {
     this.setState({
       form: {
@@ -77,6 +81,29 @@ export class MainView extends React.Component{
       },
     });
   };
+
+  async componentDidMount(){
+    console.log(this.getData());                      
+  }
+
+  //FUNCIONA PERFECTO - AQUI TRAIGO 
+  getData = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/db/');
+    this.setState({
+      datas:  res.data
+    })
+    console.log(res)
+  }
+
+  //FUNCIONA PERFECTO
+  deleteData = async (id) => {
+    const response = window.confirm('are you sure you want to delete it?');
+    if (response) {
+        await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/db/' + id);
+        this.getData();
+    }
+}
+
   render(){
     return(
       <>

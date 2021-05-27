@@ -27,6 +27,9 @@ class NavBar extends React.Component {
 		    	</button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav mr-auto">
+              <li className="nav-item ">
+                      <Link className="nav-link" to="/Puestos">Puestos <span className="sr-only">(current)</span></Link>
+                  </li>
                   <li className="nav-item ">
                       <Link className="nav-link" to="/Companies">Compañias <span className="sr-only">(current)</span></Link>
                   </li>
