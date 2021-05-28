@@ -11,7 +11,14 @@ class Countries extends React.Component {
 }
 
       async componentDidMount(){
-        console.log(this.getPaises());                      
+        console.log(this.getPaises());      
+        axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries', 
+        {
+        "name": '',
+        
+        
+      }).then(res => console.log(res))
+                          
       }
 
       getPaises = async () => {
@@ -19,16 +26,8 @@ class Countries extends React.Component {
         this.setState({
           paises:  res.data
         })
+        console.log(res)
       }
-      onSubmit = async (e) => {
-        e.preventDefault();
-        await axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries/', {
-          pais: this.state.pais
-        });
-        this.setState({ pais: '' });
-        this.getPaises();
-      }
-
       deleteUser = async (id) => {
         const response = window.confirm('are you sure you want to delete it?');
         if (response) {
@@ -37,18 +36,26 @@ class Countries extends React.Component {
         }
       }
 
+      onSubmit = async (e) => {
+        e.preventDefault();
+        await axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries/', {
+          pais: this.state.paises
+        });
+        this.setState({ pais: '' });
+        this.getPaises();
+      }
 
-AddPais = () => {
-  let pais = this.state.pais;
-  this.setState({
-      paises: [...this.state.paises, pais]
-  });
-}
-handleNewPais = (e) => {
-this.setState({
-  pais: e.target.value
-})
-}
+        AddPais = () => {
+          let pais = this.state.pais;
+          this.setState({
+              paises: [...this.state.paises, pais]
+          });
+        }
+        handleNewPais = (e) => {
+        this.setState({
+          pais: e.target.value
+        })
+        }
 
   render() {
     return ( 
@@ -56,10 +63,11 @@ this.setState({
     <div className="row">
       <div className="col m-5">
       <h1 align="center">AGREGAR PAIS</h1><hr></hr>
-      <label>INGRESE PAIS:</label><br></br>
+      <label  onSubmit={this.onSubmit}>INGRESE PAIS:</label><br></br>
         <input type="text"
         value={this.state.pais}
         onChange={(e) => this.handleNewPais(e)}
+       
         placeholder="ingrese pais"></input><br></br>
         <button className="btn btn-primary m-2" onClick={this.AddPais}>CARGAR</button><hr></hr>
       </div>

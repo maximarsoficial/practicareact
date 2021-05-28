@@ -97,7 +97,7 @@ export class MainView extends React.Component{
 
   //FUNCIONA PERFECTO
   deleteData = async (id) => {
-    const response = window.confirm('are you sure you want to delete it?');
+    const response = window.confirm('¿ESTAS SEGURO DE ELIMINARLO?');
     if (response) {
         await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/db/' + id);
         this.getData();

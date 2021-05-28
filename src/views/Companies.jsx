@@ -67,9 +67,7 @@ handleNewCompañia(e){
                  <li className="list-group-item list-group-item-action"
                   key={apiCompañia.id}
                   onDoubleClick ={() => this.deleteUser(apiCompañia.id)} 
-                 >{apiCompañia.name} 
-                    
-                 
+                 >{apiCompañia.name}  
                  </li>))}
         </ul>
         </div>

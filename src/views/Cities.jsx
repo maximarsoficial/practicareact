@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+//import {postCiudad } from '../components/apis';
+
+
 
 class Cities extends React.Component {
   constructor(){
@@ -11,8 +14,17 @@ class Cities extends React.Component {
   };
   }
   async componentDidMount(){
-    console.log(this.getCiudades());                      
+    console.log(this.getCiudades());   
+    //POST
+       axios.post('https://api-fake-pilar-tecno.herokuapp.com/places',
+       {
+
+    "name": '',
+     "countrieId": 4 ,
+}).then(res => console.log(res))
+            
   }
+
 
   //FUNCIONA PERFECTO - AQUI TRAIGO 
   getCiudades = async () => {
@@ -23,34 +35,9 @@ class Cities extends React.Component {
     console.log(res)
   }
 
-  
-    handleSubmit = async e => {
-      e.preventDefault()
-    try {
-      let config = {
-        method: 'post',
-        headers: {
-            'Accept': 'aplication/json',
-            'Content-Type': 'aplication/json'
-        },
-        body: JSON.stringify(this.state.ciudad)
-      
-        
-    }
-        
-        let res = await fetch('https://api-fake-pilar-tecno.herokuapp.com/places/', config)
-        let json = await res.json()
-        console.log(json)
-  
-    } catch (err) {
-        console.error(err)
-        
-    }
-};
-
-//FUNCIONA PERFECTO
+  //FUNCIONA PERFECTO
   deleteUser = async (id) => {
-    const response = window.confirm('are you sure you want to delete it?');
+    const response = window.confirm('¿ESTAS SEGURO DE ELIMINARLO? ⚠');
     if (response) {
         await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/places/' + id);
         this.getCiudades();
@@ -58,14 +45,15 @@ class Cities extends React.Component {
 }
 
 
-   addCiudad = () => {
-     let ciudad = this.state.ciudad;
-     console.log(ciudad);
-       this.setState({
-           ciudades: [...this.state.ciudades, ciudad]
-       });
-  }
-   handleCiudad(e){
+    // addCiudad = () => {
+        
+    //   postCiudad(this.state.ciudad).then(res => this.setState({
+    //       ciudad: [...this.state.ciudades, res]
+    //   }))
+      
+
+    // }
+   handleCiudad = (e) => {
     this.setState({
      ciudad: e.target.value
    })
@@ -84,12 +72,10 @@ class Cities extends React.Component {
             <input type="text"
                     value={this.state.ciudad}
                     onChange={(e) => this.handleCiudad(e)}
-                    onSubmit= {(e) => this.handleSubmit(e)}
                     placeholder="ingrese ciudad"></input><br></br>
-          <button onClick={this.handleSubmit}
+          <button onClick={this.addCiudad}
                   type="submit" className="btn btn-primary m-2"
           >CARGAR</button><br></br><hr></hr>
-         
           <div>
         </div>
         </div>
@@ -101,7 +87,7 @@ class Cities extends React.Component {
                  <li className="list-group-item list-group-item-action"
                   key={apiCiudad.id}
                   onDoubleClick ={() => this.deleteUser(apiCiudad.id)} 
-                 >{apiCiudad.name} 
+                 >{apiCiudad.name}  
                  </li>))}
         </ul>
         </div>

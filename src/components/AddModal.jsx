@@ -13,11 +13,12 @@ export class AddModal extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.insertarPuesto = this.insertarPuesto.bind(this);
       this.state={
-        
+          datas: '',
           puesto: "",
           compañia: "",
           ciudad: "",
           pais: "", 
+          data: [],
           puestos: [],
           paises: [],
           ciudades: [], 
@@ -26,7 +27,10 @@ export class AddModal extends React.Component {
       
       
   };
+
+  
   async componentDidMount(){
+    console.log(this.getData());
     console.log(this.getPuestos());    
     console.log(this.getCiudades());    
     console.log(this.getPaises());  
@@ -34,6 +38,12 @@ export class AddModal extends React.Component {
                   
   }
 
+  getData = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/db/');
+    this.setState({
+      datas:  res.data
+    })
+  }
   getPuestos = async () => {
     const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/jobs/');
     this.setState({
@@ -65,7 +75,21 @@ export class AddModal extends React.Component {
       [e.target.name] : e.target.value
     })
   }
+  handleData = (e) => {
+		e.preventDefault();
+		this.setState({
+			data: JSON.parse(e.target.value),
+      
+		});  
+  }
 
+  handleSelectPuesto = (e) => {
+		e.preventDefault();
+		this.setState({
+			puesto: JSON.parse(e.target.value),
+      
+		});  
+  }
   handleSelectCountry = (e) => {
 		e.preventDefault();
 		this.setState({
@@ -104,12 +128,12 @@ export class AddModal extends React.Component {
               <select class="custom-select" 
                       id="inputGroupSelect01"
                       name="puesto"
-						          onChange={(e) => this.handleSelectCompañie(e)}
+						          onChange={(e) => this.handleSelectPuesto(e)}
 						          value={JSON.stringify(this.state.getPuestos)}>
 
 						<option value={JSON.stringify({})}>Elija un puesto</option>
             { this.state.puestos.map((apiPuesto) => (
-                            <option key={apiPuesto.id} value={JSON.stringify(apiPuesto.name)}>{apiPuesto.name}</option>
+                            <option key={apiPuesto.id} value={JSON.stringify(apiPuesto.position)}>{apiPuesto.position}</option>
                         ))}
         			</select><br></br><br></br>
            
@@ -154,7 +178,7 @@ export class AddModal extends React.Component {
                         ))}
 					</select><br></br><hr></hr>
           
-            
+         
           
             <button className="btn btn-primary" onClick={this.insertarPuesto}>
               Insertar
@@ -162,7 +186,8 @@ export class AddModal extends React.Component {
             <button className="btn btn-danger" onClick={this.props.cerrarModal}>
               Cancelar
             </button><br></br><br></br>
-         
+
+          
        
         </>
     )

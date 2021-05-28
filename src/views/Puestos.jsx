@@ -11,7 +11,14 @@ class Puestos extends React.Component {
   };
   }
   async componentDidMount(){
-    console.log(this.getPuestos());                      
+    console.log(this.getPuestos());  
+    axios.post('https://api-fake-pilar-tecno.herokuapp.com/jobs', 
+    {
+    "name": 'sss',
+    "countrieId": 4 ,
+    
+  }).then(res => console.log(res))
+                          
   }
 
   //FUNCIONA PERFECTO - AQUI TRAIGO 
@@ -23,21 +30,7 @@ class Puestos extends React.Component {
     console.log(res)
   }
 
-  
-    postCiudad = async (data) => {
-    const configRequest = {
-        method: 'post',
-        url: 'https://api-fake-pilar-tecno.herokuapp.com/jobs',
-        data: data
-    }
-    try {
-        const res = await axios(configRequest)
-        return res.data
-    } catch (err) {
-        console.error(err)
-        
-    }
-};
+
 
 //FUNCIONA PERFECTO
   deleteUser = async (id) => {
@@ -91,7 +84,7 @@ class Puestos extends React.Component {
                  <li className="list-group-item list-group-item-action"
                   key={apiPuesto.id}
                   onDoubleClick ={() => this.deleteUser(apiPuesto.id)} 
-                 >{apiPuesto.name} 
+                 >{apiPuesto.position} 
                     
                  
                  </li>))}
