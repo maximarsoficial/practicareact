@@ -117,13 +117,6 @@ handleSelectCity = (e) => {
                         ))}
         			</select>
 
-
-
-
-
-
-
-
           <button className="btn btn-primary m-2"
                   onClick={this.addCompañia}>
                   CARGAR</button><hr></hr><br></br>
