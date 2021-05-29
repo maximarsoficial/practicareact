@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import {postData} from '../Clients/api';
 
 class Countries extends React.Component {
   constructor(){
@@ -7,6 +8,7 @@ class Countries extends React.Component {
     this.state = {
         pais: '',
         paises: [],
+        
       };
 }
 
@@ -36,19 +38,14 @@ class Countries extends React.Component {
         }
       }
 
-      onSubmit = async (e) => {
-        e.preventDefault();
-        await axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries/', {
-          pais: this.state.paises
-        });
-        this.setState({ pais: '' });
-        this.getPaises();
-      }
-
         AddPais = () => {
           let pais = this.state.pais;
-          this.setState({
-              paises: [...this.state.paises, pais]
+          let data = {name: pais, } //countrieId:  pais
+          postData("countries", data).then(res => {
+            this.setState({
+              paises: [...this.state.paises, res.data],
+            });
+            alert('País agregado exitosamente!!!');
           });
         }
         handleNewPais = (e) => {
@@ -63,7 +60,8 @@ class Countries extends React.Component {
     <div className="row">
       <div className="col m-5">
       <h1 align="center">AGREGAR PAIS</h1><hr></hr>
-      <label  onSubmit={this.onSubmit}>INGRESE PAIS:</label><br></br>
+
+      <label>INGRESE PAIS:</label><br></br>
         <input type="text"
         value={this.state.pais}
         onChange={(e) => this.handleNewPais(e)}

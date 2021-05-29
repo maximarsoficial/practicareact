@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-//import {postCiudad } from '../components/apis';
+import {postData} from '../Clients/api';
 
 
 
@@ -15,13 +15,13 @@ class Cities extends React.Component {
   }
   async componentDidMount(){
     console.log(this.getCiudades());   
-    //POST
-       axios.post('https://api-fake-pilar-tecno.herokuapp.com/places',
-       {
+//     //POST
+//        axios.post('https://api-fake-pilar-tecno.herokuapp.com/places',
+//        {
 
-    "name": '',
-     "countrieId": 4 ,
-}).then(res => console.log(res))
+//     "name": '',
+//      "countrieId": 4 ,
+// }).then(res => console.log(res))
             
   }
 
@@ -44,15 +44,18 @@ class Cities extends React.Component {
     }
 }
 
+    AddCiudad = () => {
+      let ciudad = this.state.ciudad;
+      let id = this.state.ciudad;
 
-    // addCiudad = () => {
-        
-    //   postCiudad(this.state.ciudad).then(res => this.setState({
-    //       ciudad: [...this.state.ciudades, res]
-    //   }))
-      
-
-    // }
+      let data = {name: ciudad, countrieId: id,  }; //countrieId:  pais
+      postData("places", data).then(res => {
+        this.setState({
+          ciudades: [...this.state.ciudades, res.data],
+        });
+        alert('ciudad agregada exitosamente!!!');
+      });
+    } 
    handleCiudad = (e) => {
     this.setState({
      ciudad: e.target.value
