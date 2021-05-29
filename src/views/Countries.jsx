@@ -71,6 +71,8 @@ class Countries extends React.Component {
         <button className="btn btn-primary m-2" onClick={this.AddPais}>CARGAR</button><hr></hr>
       </div>
     </div>
+    <h4>CON DOBLE CLICK PUEDE ELIMINARLO</h4><hr></hr><br></br>
+
     <div className="col-md-8">
          <ul className="list-group">
                 {

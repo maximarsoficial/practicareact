@@ -44,7 +44,7 @@ getCompañias = async () => {
 
   //FUNCIONA PERFECTO
   deleteUser = async (id) => {
-    const response = window.confirm('are you sure you want to delete it?');
+    const response = window.confirm('¿ESTAS SEGURO DE ELIMINARLO? ⚠');
     if (response) {
         await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/organizations/' + id);
         this.getCompañias();
@@ -130,6 +130,7 @@ handleSelectCity = (e) => {
           
         </div>
       </div>
+      <h4>CON DOBLE CLICK PUEDE ELIMINARLO</h4><hr></hr><br></br>
 
       <div className="col-md-8">
          <ul className="list-group">

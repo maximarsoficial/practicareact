@@ -111,6 +111,8 @@ class Cities extends React.Component {
         </div>
         </div>
       </div>
+      <h4>CON DOBLE CLICK PUEDE ELIMINARLO</h4><hr></hr><br></br>
+
       <div className="col-md-8">
          <ul className="list-group">
                 {
