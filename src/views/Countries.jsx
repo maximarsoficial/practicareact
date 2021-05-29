@@ -31,7 +31,7 @@ class Countries extends React.Component {
         console.log(res)
       }
       deleteUser = async (id) => {
-        const response = window.confirm('are you sure you want to delete it?');
+        const response = window.confirm('¿ESTAS SEGURO DE ELIMINARLO? ⚠');
         if (response) {
             await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/countries/' + id);
             this.getPaises();
@@ -67,6 +67,7 @@ class Countries extends React.Component {
         onChange={(e) => this.handleNewPais(e)}
        
         placeholder="ingrese pais"></input><br></br>
+        
         <button className="btn btn-primary m-2" onClick={this.AddPais}>CARGAR</button><hr></hr>
       </div>
     </div>

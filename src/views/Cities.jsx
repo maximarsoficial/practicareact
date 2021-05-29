@@ -4,25 +4,24 @@ import {postData} from '../Clients/api';
 
 
 
+
 class Cities extends React.Component {
   constructor(){
     super();
     this.state = {
       ciudad: '',
+      pais: '',
+      paises: [],
       ciudades: [],
       withError: false
   };
   }
-  async componentDidMount(){
-    console.log(this.getCiudades());   
-//     //POST
-//        axios.post('https://api-fake-pilar-tecno.herokuapp.com/places',
-//        {
 
-//     "name": '',
-//      "countrieId": 4 ,
-// }).then(res => console.log(res))
-            
+  //AGREGAR ESTO
+  async componentDidMount(){
+    console.log(this.getCiudades());      
+    console.log(this.getPaises());  
+      
   }
 
 
@@ -34,6 +33,13 @@ class Cities extends React.Component {
     })
     console.log(res)
   }
+  //AGREGAR TAMBIEN UNO DE ESTOS
+  getPaises = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
+    this.setState({
+      paises:  res.data
+    })
+  }
 
   //FUNCIONA PERFECTO
   deleteUser = async (id) => {
@@ -44,22 +50,30 @@ class Cities extends React.Component {
     }
 }
 
+//CORREGIR ESTO
     AddCiudad = () => {
-      let ciudad = this.state.ciudad;
-      let id = this.state.ciudad;
+      
+      let data = {name: this.state.ciudad , countrieId: this.state.pais}
+      postData(data).then(res => this.setState({
+        ciudades: [...this.state.ciudades, res]  
+      
+      }))
 
-      let data = {name: ciudad, countrieId: id,  }; //countrieId:  pais
-      postData("places", data).then(res => {
-        this.setState({
-          ciudades: [...this.state.ciudades, res.data],
-        });
-        alert('ciudad agregada exitosamente!!!');
-      });
-    } 
+    }
+    //     alert('ciudad agregada exitosamente!!!');
+    //   });
+    // } 
+
    handleCiudad = (e) => {
     this.setState({
      ciudad: e.target.value
    })
+  }
+  handleSelectCountry = (e) => {
+		this.setState({
+			pais: e.target.value
+      
+		});  
   }
 
   render() {
@@ -75,8 +89,22 @@ class Cities extends React.Component {
             <input type="text"
                     value={this.state.ciudad}
                     onChange={(e) => this.handleCiudad(e)}
-                    placeholder="ingrese ciudad"></input><br></br>
-          <button onClick={this.addCiudad}
+                    placeholder="ingrese ciudad"></input><br></br><br></br>
+          
+          <label> PAIS:  </label>
+              <select class="custom-select" 
+                      id="inputGroupSelect01"
+                      name="pais"
+						          onChange={(e) => this.handleSelectCountry(e)}
+						          value={JSON.stringify(this.state.getPaises)}>
+
+						<option value={JSON.stringify({})}>Elija Pais</option>
+                        { this.state.paises.map((apiPais) => (
+                            <option key={apiPais} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
+                        ))}
+        			</select><br></br><br></br>
+
+          <button onClick={this.AddCiudad}
                   type="submit" className="btn btn-primary m-2"
           >CARGAR</button><br></br><hr></hr>
           <div>
@@ -88,7 +116,7 @@ class Cities extends React.Component {
                 {
                   this.state.ciudades.map(apiCiudad => ( 
                  <li className="list-group-item list-group-item-action"
-                  key={apiCiudad.id}
+                  key={apiCiudad}
                   onDoubleClick ={() => this.deleteUser(apiCiudad.id)} 
                  >{apiCiudad.name}  
                  </li>))}

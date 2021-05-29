@@ -6,18 +6,21 @@ class Puestos extends React.Component {
     super();
     this.state = {
       puesto: '',
+      ciudad: '',
+      pais: '',
+      compañia: '',
       puestos: [],
+      ciudades: [],
+      paises: [],
+      compañias: [],
       withError: false
   };
   }
   async componentDidMount(){
     console.log(this.getPuestos());  
-    axios.post('https://api-fake-pilar-tecno.herokuapp.com/jobs', 
-    {
-    "name": 'sss',
-    "countrieId": 4 ,
-    
-  }).then(res => console.log(res))
+    console.log(this.getCiudades());    
+    console.log(this.getPaises());  
+    console.log(this.getCompañias());
                           
   }
 
@@ -30,6 +33,24 @@ class Puestos extends React.Component {
     console.log(res)
   }
 
+  getCompañias = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/organizations/');
+    this.setState({
+      compañias:  res.data
+    })
+  }
+  getCiudades = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/places/');
+    this.setState({
+      ciudades:  res.data
+    })
+  }
+  getPaises = async () => {
+    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
+    this.setState({
+      paises:  res.data
+    })
+  }
 
 
 //FUNCIONA PERFECTO
@@ -54,6 +75,28 @@ class Puestos extends React.Component {
         puesto: e.target.value
    })
   }
+  handleSelectPuesto = (e) => {
+		e.preventDefault();
+		this.setState({
+			puesto: JSON.parse(e.target.value),
+      
+		});  
+  }
+  handleSelectCountry = (e) => {
+		e.preventDefault();
+		this.setState({
+			pais: JSON.parse(e.target.value),
+      
+		});  
+  }
+
+  handleSelectCity = (e) => {
+		e.preventDefault();
+		this.setState({
+			ciudad: JSON.parse(e.target.value)
+      
+		});  
+  }
 
   render() {
     return (
@@ -69,6 +112,49 @@ class Puestos extends React.Component {
                     value={this.state.puesto}
                     onChange={(e) => this.handlePuesto(e)}
                     placeholder="ingrese puesto"></input><br></br>
+                      <label> Compañia:  </label>
+              <select class="custom-select" 
+                      id="inputGroupSelect01"
+                      name="compañia"
+						          onChange={(e) => this.handleSelectCompañie(e)}
+						          value={JSON.stringify(this.state.getCompañias)}>
+
+						<option value={JSON.stringify({})}>Elija Compañia</option>
+            { this.state.compañias.map((apiCompañia) => (
+                            <option key={apiCompañia.id} value={JSON.stringify(apiCompañia.name)}>{apiCompañia.name}</option>
+                        ))}
+        			</select><br></br><br></br>
+
+
+              <label> Pais:  </label>
+              <select class="custom-select" 
+                      id="inputGroupSelect01"
+                      name="pais"
+						          onChange={(e) => this.handleSelectCountry(e)}
+						          value={JSON.stringify(this.state.getPaises)}>
+
+						<option value={JSON.stringify({})}>Elija Pais</option>
+                        { this.state.paises.map((apiPais) => (
+                            <option key={apiPais.id} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
+                        ))}
+        			</select><br></br><br></br>
+            
+              <label>
+                Ciudad: 
+              </label>
+              <select class="custom-select" 
+                      id="inputGroupSelect01"
+                      name="ciudad"
+						          onChange={(e) => this.handleSelectCity(e)}
+						          value={JSON.stringify(this.state.getCiudades)} >
+					    	<option value={JSON.stringify({})}>Elija Ciudad</option>
+                  { this.state.ciudades.map((apiCiudad) => (
+                  <option key={apiCiudad.id} value={JSON.stringify(apiCiudad.name)}>{apiCiudad.name}</option>
+                        ))}
+					</select><br></br><hr></hr>
+
+
+
           <button onClick={this.addPuesto}
                   type="submit" className="btn btn-primary m-2"
           >CARGAR</button><br></br><hr></hr>
@@ -82,7 +168,7 @@ class Puestos extends React.Component {
                 {
                   this.state.puestos.map(apiPuesto => ( 
                  <li className="list-group-item list-group-item-action"
-                  key={apiPuesto.id}
+                  key={apiPuesto}
                   onDoubleClick ={() => this.deleteUser(apiPuesto.id)} 
                  >{apiPuesto.position} 
                     
