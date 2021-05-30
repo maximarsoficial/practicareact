@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios'
+import {postData} from '../Clients/api';
+
 
 
 class Companies extends React.Component {
@@ -8,8 +10,10 @@ class Companies extends React.Component {
     this.state = {
         compañia: '',
         ciudad: '',
+        ciudades: [],
         compañias: [],
-        ciudades: []
+        withError: false,
+
       };
 }
 async componentDidMount(){
@@ -43,10 +47,16 @@ getCompañias = async () => {
     }
 }
 addCompañia = () => {
-  let compañia = this.state.compañia;
-  this.setState({
-      compañias: [...this.state.compañias, compañia]
-  });
+  let compañiaNombre = this.state.compañia
+  let ciudadId = this.state.ciudad.id
+
+  let url = 'organizations'
+  let data = {name: compañiaNombre , placeId : ciudadId }
+  postData(url, data).then(res => this.setState({
+    compañias: [...this.state.compañias, res]  
+  }))
+
+   alert('ciudad agregada exitosamente!!!');
 }
 handleNewCompañia(e){
   this.setState({
@@ -56,10 +66,9 @@ handleNewCompañia(e){
 
 
 handleSelectCity = (e) => {
-  e.preventDefault();
   this.setState({
     ciudad: JSON.parse(e.target.value)
-    
+
   });  
 }
 
@@ -86,12 +95,12 @@ handleSelectCity = (e) => {
 						          value={JSON.stringify(this.state.getCiudades)} >
 					    	<option value={JSON.stringify({})}>Selecione su Ciudad</option>
                   { this.state.ciudades.map((apiCiudad) => (
-                  <option key={apiCiudad.id} value={JSON.stringify(apiCiudad.name)}>{apiCiudad.name}</option>
+                  <option key={apiCiudad.id} value={JSON.stringify(apiCiudad)}>{apiCiudad.name}</option>
                         ))}
 					</select><br></br><hr></hr>
 
           <button className="btn btn-primary m-2"
-                  onClick={this.addCompañia}>
+                  onClick={() => this.addCompañia()}>
                   CARGAR</button><hr></hr><br></br>
           
         </div>
@@ -103,7 +112,7 @@ handleSelectCity = (e) => {
                 {
                   this.state.compañias.map(apiCompañia => ( 
                  <li className="list-group-item list-group-item-action"
-                  key={apiCompañia.id}
+                  key={apiCompañia}
                   onDoubleClick ={() => this.deleteUser(apiCompañia.id)} 
                  >{apiCompañia.name}  
                  </li>))}

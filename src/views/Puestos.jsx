@@ -1,17 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import {postData} from '../Clients/api';
 
 class Puestos extends React.Component {
   constructor(){
     super();
     this.state = {
       puesto: '',
-      ciudad: '',
-      pais: '',
+      descripcion: '',
       compañia: '',
       puestos: [],
-      ciudades: [],
-      paises: [],
+      descripciones: [],
       compañias: [],
       withError: false
   };
@@ -51,21 +50,34 @@ class Puestos extends React.Component {
 
 
    addPuesto = () => {
-     let puesto = this.state.puesto;
-     console.log(puesto);
-       this.setState({
-        puestos: [...this.state.puestos, puesto]
-       });
+    let puestoNombre = this.state.puesto
+    let compañiaId = this.state.compañia.id
+    let puestoDescripcion = this.state.descripcion
+
+
+      let url = 'jobs'
+      let data = {position: puestoNombre, description: puestoDescripcion , 
+        organizationId: compañiaId}
+      postData(url, data).then(res => this.setState({
+        puestos: [...this.state.puestos, res]  
+      }))
+
+       alert('ciudad agregada exitosamente!!!');
   }
    handlePuesto(e){
     this.setState({
         puesto: e.target.value
    })
   }
-  handleSelectPuesto = (e) => {
+  handleDescripcion(e){
+    this.setState({
+        descripcion: e.target.value
+   })
+  }
+  handleSelectCompañia = (e) => {
 		e.preventDefault();
 		this.setState({
-			puesto: JSON.parse(e.target.value),
+			compañia: JSON.parse(e.target.value),
       
 		});  
   }
@@ -85,16 +97,22 @@ class Puestos extends React.Component {
                     onChange={(e) => this.handlePuesto(e)}
                     placeholder="ingrese puesto"></input><br></br><br></br>
 
-                      <label> SELECIONE LA COMPAÑIA A LA QUE PERTENECE:  </label>
+       <label>INGRESE DESCRIPCION:</label><br></br>
+            <input type="text"
+                    value={this.state.descripcion}
+                    onChange={(e) => this.handleDescripcion(e)}
+                    placeholder="ingrese descripcion"></input><br></br><br></br>
+
+           <label> SELECIONE LA COMPAÑIA A LA QUE PERTENECE:  </label>
               <select class="custom-select" 
                       id="inputGroupSelect01"
                       name="compañia"
-						          onChange={(e) => this.handleSelectCompañie(e)}
+						          onChange={(e) => this.handleSelectCompañia(e)}
 						          value={JSON.stringify(this.state.getCompañias)}>
 
 						<option value={JSON.stringify({})}>Elija Compañia</option>
             { this.state.compañias.map((apiCompañia) => (
-                            <option key={apiCompañia.id} value={JSON.stringify(apiCompañia.name)}>{apiCompañia.name}</option>
+                            <option key={apiCompañia} value={JSON.stringify(apiCompañia)}>{apiCompañia.name}</option>
                         ))}
         			</select><br></br><br></br>
 
@@ -112,14 +130,17 @@ class Puestos extends React.Component {
       <div className="col-md-8">
          <ul className="list-group">
                 {
-                  this.state.puestos.map(apiPuesto => ( 
+                this.state.puestos.length > 0 &&
+                this.state.compañias.length > 0 &&
+                this.state.puestos.map(apiPuesto => {
+                let compañia = this.state.compañias.find(compañia => compañia.id === apiPuesto.organizationId)
+                
+                    return( 
                  <li className="list-group-item list-group-item-action"
                   key={apiPuesto}
                   onDoubleClick ={() => this.deleteUser(apiPuesto.id)} 
-                 >{apiPuesto.position} 
-                    
-                 
-                 </li>))}
+                 >{apiPuesto.position} - {apiPuesto.description}  - {compañia.name}
+                 </li>)} )}
         </ul>
         </div>
     </div>

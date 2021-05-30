@@ -13,14 +13,7 @@ class Countries extends React.Component {
 }
 
       async componentDidMount(){
-        console.log(this.getPaises());      
-        axios.post('https://api-fake-pilar-tecno.herokuapp.com/countries', 
-        {
-        "name": '',
-        
-        
-      }).then(res => console.log(res))
-                          
+        console.log(this.getPaises());                         
       }
 
       getPaises = async () => {
@@ -39,11 +32,12 @@ class Countries extends React.Component {
       }
 
         AddPais = () => {
-          let pais = this.state.pais;
-          let data = {name: pais, } //countrieId:  pais
-          postData("countries", data).then(res => {
+          let paisName = this.state.pais;
+          let url = 'countries'
+          let data = {name: paisName, } 
+          postData(url , data).then(res => {
             this.setState({
-              paises: [...this.state.paises, res.data],
+              paises: [...this.state.paises, res],
             });
             alert('País agregado exitosamente!!!');
           });
