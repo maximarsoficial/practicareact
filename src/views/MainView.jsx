@@ -8,8 +8,7 @@ export class MainView extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      dbAPI: [],
-      db: '',
+      db: [],
   }
 }
   
@@ -23,13 +22,13 @@ export class MainView extends React.Component{
   getdb = async () => {
     const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/db/');
     this.setState({
-      dbAPI:  res.data
+      db:  res.data
     })
     console.log(res)
   }
 
   //FUNCIONA PERFECTO
-  deleteData = async (id) => {
+  deletedb = async (id) => {
     const response = window.confirm('¿ESTAS SEGURO DE ELIMINARLO?');
     if (response) {
         await axios.delete('https://api-fake-pilar-tecno.herokuapp.com/db/' + id);
@@ -46,13 +45,30 @@ export class MainView extends React.Component{
        
       <div className="col-md-8">
          <ul className="list-group">
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
-              <h1>----------------------------------------------------------------</h1>
+           
+         <div className="container">
+         <h4>CON DOBLE CLICK PUEDE ELIMINARLO</h4><hr></hr><br></br>
+
+            <table className="table table-hover table-dark">
+            <thead className="">
+                <tr>
+                         
+               
+                    <th>PUESTO</th>
+                    <th>COMPAÑIA</th>
+                    <th>CIUDAD</th>
+                    <th>PAIS</th>
+
+                </tr>
+            </thead>
+
+            <tbody  >
+
+        
+              
+            </tbody>
+        </table>
+        </div>
 
         </ul>
         </div>

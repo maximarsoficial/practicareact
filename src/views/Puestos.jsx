@@ -17,9 +17,7 @@ class Puestos extends React.Component {
   };
   }
   async componentDidMount(){
-    console.log(this.getPuestos());  
-    console.log(this.getCiudades());    
-    console.log(this.getPaises());  
+    console.log(this.getPuestos());    
     console.log(this.getCompañias());
                           
   }
@@ -39,18 +37,7 @@ class Puestos extends React.Component {
       compañias:  res.data
     })
   }
-  getCiudades = async () => {
-    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/places/');
-    this.setState({
-      ciudades:  res.data
-    })
-  }
-  getPaises = async () => {
-    const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
-    this.setState({
-      paises:  res.data
-    })
-  }
+  
 
 
 //FUNCIONA PERFECTO
@@ -82,21 +69,6 @@ class Puestos extends React.Component {
       
 		});  
   }
-  handleSelectCountry = (e) => {
-		e.preventDefault();
-		this.setState({
-			pais: JSON.parse(e.target.value),
-      
-		});  
-  }
-
-  handleSelectCity = (e) => {
-		e.preventDefault();
-		this.setState({
-			ciudad: JSON.parse(e.target.value)
-      
-		});  
-  }
 
   render() {
     return (
@@ -111,8 +83,9 @@ class Puestos extends React.Component {
             <input type="text"
                     value={this.state.puesto}
                     onChange={(e) => this.handlePuesto(e)}
-                    placeholder="ingrese puesto"></input><br></br>
-                      <label> Compañia:  </label>
+                    placeholder="ingrese puesto"></input><br></br><br></br>
+
+                      <label> SELECIONE LA COMPAÑIA A LA QUE PERTENECE:  </label>
               <select class="custom-select" 
                       id="inputGroupSelect01"
                       name="compañia"
@@ -124,34 +97,6 @@ class Puestos extends React.Component {
                             <option key={apiCompañia.id} value={JSON.stringify(apiCompañia.name)}>{apiCompañia.name}</option>
                         ))}
         			</select><br></br><br></br>
-
-
-              <label> Pais:  </label>
-              <select class="custom-select" 
-                      id="inputGroupSelect01"
-                      name="pais"
-						          onChange={(e) => this.handleSelectCountry(e)}
-						          value={JSON.stringify(this.state.getPaises)}>
-
-						<option value={JSON.stringify({})}>Elija Pais</option>
-                        { this.state.paises.map((apiPais) => (
-                            <option key={apiPais.id} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
-                        ))}
-        			</select><br></br><br></br>
-            
-              <label>
-                Ciudad: 
-              </label>
-              <select class="custom-select" 
-                      id="inputGroupSelect01"
-                      name="ciudad"
-						          onChange={(e) => this.handleSelectCity(e)}
-						          value={JSON.stringify(this.state.getCiudades)} >
-					    	<option value={JSON.stringify({})}>Elija Ciudad</option>
-                  { this.state.ciudades.map((apiCiudad) => (
-                  <option key={apiCiudad.id} value={JSON.stringify(apiCiudad.name)}>{apiCiudad.name}</option>
-                        ))}
-					</select><br></br><hr></hr>
 
 
 

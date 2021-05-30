@@ -7,17 +7,14 @@ class Companies extends React.Component {
     super()
     this.state = {
         compañia: '',
-        pais: '',
         ciudad: '',
         compañias: [],
-        paises: [],
         ciudades: []
       };
 }
 async componentDidMount(){
   console.log(this.getCompañias());    
   console.log(this.getCiudades()); 
-  console.log(this.getPaises());                   
 }
 
     getCiudades = async () => {
@@ -26,12 +23,7 @@ async componentDidMount(){
         ciudades:  res.data
       })
     }
-    getPaises = async () => {
-      const res = await axios.get('https://api-fake-pilar-tecno.herokuapp.com/countries/');
-      this.setState({
-        paises:  res.data
-      })
-    }
+  
 
 //FUNCIONA PERFECTO - AQUI TRAIGO 
 getCompañias = async () => {
@@ -61,13 +53,7 @@ handleNewCompañia(e){
     compañia: e.target.value
   })
 }
-handleSelectCountry = (e) => {
-  e.preventDefault();
-  this.setState({
-    pais: JSON.parse(e.target.value),
-    
-  });  
-}
+
 
 handleSelectCity = (e) => {
   e.preventDefault();
@@ -91,7 +77,7 @@ handleSelectCity = (e) => {
                      onChange={(e) => this.handleNewCompañia(e)} ></input><br></br><br></br>
     
               <label>
-                Ciudad: 
+               SELECIONE LA CIUDAD A LA CUAL PERTENECE SU COMPAÑIA: 
               </label>
               <select class="custom-select" 
                       id="inputGroupSelect01"
@@ -103,19 +89,6 @@ handleSelectCity = (e) => {
                   <option key={apiCiudad.id} value={JSON.stringify(apiCiudad.name)}>{apiCiudad.name}</option>
                         ))}
 					</select><br></br><hr></hr>
-          
-          <label> Pais:  </label>
-              <select class="custom-select" 
-                      id="inputGroupSelect01"
-                      name="pais"
-						          onChange={(e) => this.handleSelectCountry(e)}
-						          value={JSON.stringify(this.state.getPaises)}>
-
-						<option value={JSON.stringify({})}>Seleccione su Pais</option>
-                        { this.state.paises.map((apiPais) => (
-                            <option key={apiPais.id} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
-                        ))}
-        			</select>
 
           <button className="btn btn-primary m-2"
                   onClick={this.addCompañia}>

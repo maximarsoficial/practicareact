@@ -13,15 +13,15 @@ class Cities extends React.Component {
       pais: '',
       paises: [],
       ciudades: [],
-      withError: false
+      withError: false,
+      
   };
   }
 
   //AGREGAR ESTO
   async componentDidMount(){
     console.log(this.getCiudades());      
-    console.log(this.getPaises());  
-      
+    console.log(this.getPaises());    
   }
 
 
@@ -52,17 +52,18 @@ class Cities extends React.Component {
 
 //CORREGIR ESTO
     AddCiudad = () => {
-      
-      let data = {name: this.state.ciudad , countrieId: this.state.pais}
-      postData(data).then(res => this.setState({
+      let ciudadNombre = this.state.ciudad
+      let paisId = this.state.pais.id
+
+      let url = 'places'
+      let data = {name: ciudadNombre , countrieId: paisId}
+      postData(url, data).then(res => this.setState({
         ciudades: [...this.state.ciudades, res]  
-      
       }))
 
-    }
-    //     alert('ciudad agregada exitosamente!!!');
-    //   });
-    // } 
+       alert('ciudad agregada exitosamente!!!');
+     };
+     
 
    handleCiudad = (e) => {
     this.setState({
@@ -71,7 +72,7 @@ class Cities extends React.Component {
   }
   handleSelectCountry = (e) => {
 		this.setState({
-			pais: e.target.value
+			pais: JSON.parse(e.target.value)
       
 		});  
   }
@@ -91,7 +92,7 @@ class Cities extends React.Component {
                     onChange={(e) => this.handleCiudad(e)}
                     placeholder="ingrese ciudad"></input><br></br><br></br>
           
-          <label> PAIS:  </label>
+          <label> SELECIONA EL PAIS AL QUE PERTENECE:  </label>
               <select class="custom-select" 
                       id="inputGroupSelect01"
                       name="pais"
@@ -100,13 +101,14 @@ class Cities extends React.Component {
 
 						<option value={JSON.stringify({})}>Elija Pais</option>
                         { this.state.paises.map((apiPais) => (
-                            <option key={apiPais} value={JSON.stringify(apiPais.name)}>{apiPais.name}</option>
+                            <option key={apiPais} value={JSON.stringify(apiPais)}>{apiPais.name}</option>
                         ))}
         			</select><br></br><br></br>
 
-          <button onClick={this.AddCiudad}
+          <button onClick={() => this.AddCiudad()}
                   type="submit" className="btn btn-primary m-2"
           >CARGAR</button><br></br><hr></hr>
+          
           <div>
         </div>
         </div>
@@ -116,12 +118,13 @@ class Cities extends React.Component {
       <div className="col-md-8">
          <ul className="list-group">
                 {
-                  this.state.ciudades.map(apiCiudad => ( 
-                 <li className="list-group-item list-group-item-action"
-                  key={apiCiudad}
-                  onDoubleClick ={() => this.deleteUser(apiCiudad.id)} 
-                 >{apiCiudad.name}  
-                 </li>))}
+                  this.state.ciudades.map(apiCiudad  => ( 
+                 <li className="list-group-item list-group-item-action" 
+                 key={apiCiudad} 
+                onDoubleClick ={() => this.deleteUser(apiCiudad.id)} 
+                 >{apiCiudad.name}
+                 </li>))
+                 }
         </ul>
         </div>
     </div>

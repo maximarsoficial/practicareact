@@ -11,9 +11,10 @@ export const postData = async (url, data) => {
     }
     try{
         const res = await axios(configRequest);
-        return(res);
+        return(res.data);
     }catch(err){
         return(console.log('Ocurrió un error al cargar los datos!!!'));
+        //throw err;
     }
 }
 
